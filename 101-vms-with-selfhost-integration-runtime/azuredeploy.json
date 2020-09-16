@@ -126,9 +126,7 @@
       "apiVersion": "2019-06-01",
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('existingVnetLocation')]",
-      "dependsOn": [
-        "[resourceId(parameters('existingDataFactoryResourceGroup'), 'Microsoft.Resources/deployments', 'nestedTemplate')]"
-      ],
+      "dependsOn": [],
       "sku": {
         "name": "Standard_LRS"
       },
@@ -200,9 +198,6 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "existingDataFactoryVersion": {
-            "value": "[parameters('existingDataFactoryVersion')]"
-          },
           "authKey": {
             "value": "[parameters('authKey')]"
           },
