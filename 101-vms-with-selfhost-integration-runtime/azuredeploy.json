@@ -2,27 +2,11 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "existingDataFactoryName": {
+    "authKey": {
       "type": "string",
       "metadata": {
-        "description": "your existing data factory name"
+        "description": "your existing data factory authentication key"
       }
-    },
-    "existingDataFactoryResourceGroup": {
-      "type": "string",
-      "metadata": {
-        "description": "your existing data factory resource group"
-      }
-    },
-    "existingDataFactoryVersion": {
-      "type": "string",
-      "metadata": {
-        "description": "your existing data factory version"
-      },
-      "allowedValues": [
-        "V1",
-        "V2"
-      ]
     },
     "VirtualMachineName": {
       "type": "string",
@@ -115,30 +99,6 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-09-01",
-      "name": "nestedTemplate",
-      "resourceGroup": "[parameters('existingDataFactoryResourceGroup')]",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('IRtemplateLink')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "existingDataFactoryName": {
-            "value": "[parameters('existingDataFactoryName')]"
-          },
-          "existingDataFactoryVersion": {
-            "value": "[parameters('existingDataFactoryVersion')]"
-          },
-          "IntegrationRuntimeName": {
-            "value": "[parameters('IntegrationRuntimeName')]"
-          }
-        }
-      }
-    },
-    {
       "name": "[variables('networkSecurityGroupName')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2019-09-01",
@@ -180,7 +140,6 @@
       "apiVersion": "2019-09-01",
       "name": "[concat('VMtemplate-', copyIndex())]",
       "dependsOn": [
-        "[resourceId(parameters('existingDataFactoryResourceGroup'), 'Microsoft.Resources/deployments', 'nestedTemplate')]",
         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
@@ -244,8 +203,8 @@
           "existingDataFactoryVersion": {
             "value": "[parameters('existingDataFactoryVersion')]"
           },
-          "datafactoryId": {
-            "value": "[reference(resourceId(parameters('existingDataFactoryResourceGroup'), 'Microsoft.Resources/deployments', 'nestedTemplate')).outputs.irId.value]"
+          "authKey": {
+            "value": "[parameters('authKey')]"
           },
           "virtualMachineName": {
             "value": "[take(parameters('VirtualMachineName'), 15)]"
