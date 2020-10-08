@@ -136,9 +136,6 @@
       "apiVersion": "2019-09-01",
       "name": "[concat('VMtemplate-', copyIndex())]",
       "tags": {
-        "Department": "[parameters('departmentName')]",
-        "Application": "[parameters('applicationName')]",
-        "Created By": "[parameters('createdBy')]",
         "OSSupport" : "UM"
       },
       "dependsOn": [
