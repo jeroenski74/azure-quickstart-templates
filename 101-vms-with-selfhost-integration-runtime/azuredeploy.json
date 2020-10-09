@@ -210,38 +210,10 @@
           "existingVnetLocation": {
             "value": "[parameters('existingVnetLocation')]"
           },
-          "scriptUrl": {
+          "irScriptUrl": {
             "value": "[variables('irScriptURL')]"
-          }
-        }
-      }
-    },
-    {
-      "apiVersion": "2019-09-01",
-      "type": "Microsoft.Resources/deployments",
-      "name": "[concat('JAVAInstalltemplate-', copyIndex())]",
-      "dependsOn": [
-        "vmcopy"
-      ],
-      "copy": {
-        "name": "javainstallcopy",
-        "count": "[parameters('NodeCount')]",
-        "mode": "serial"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('javaInstallTemplateLink')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "virtualMachineName": {
-            "value": "[take(parameters('VirtualMachineName'), 15)]"
           },
-          "existingVnetLocation": {
-            "value": "[parameters('existingVnetLocation')]"
-          },
-          "scriptUrl": {
+          "javaScriptUrl": {
             "value": "[variables('javaScriptURL')]"
           }
         }
