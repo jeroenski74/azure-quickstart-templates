@@ -37,7 +37,6 @@
         },
         "protectedSettings": {
           "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File gatewayInstall.ps1 ', parameters('authKey'))]"
-         ,"commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File javaInstall.ps1', '')]"
         }
       }
     }
