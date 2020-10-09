@@ -93,6 +93,7 @@
     "networkSecurityGroupName": "[concat(parameters('IntegrationRuntimeName'), 'nsg')]",
     "vmTemplateLink": "[uri(parameters('_artifactsLocation'), concat('nested/VMtemplate.json', parameters('_artifactsLocationSasToken')))]",
     "irInstallTemplateLink": "[uri(parameters('_artifactsLocation'), concat('nested/IRInstall.json', parameters('_artifactsLocationSasToken')))]",
+    "javaInstallTemplateLink": "[uri(parameters('_artifactsLocation'), concat('nested/JavaInstall.json'))]",
     "subnetId": "[resourceId(parameters('existingVnetResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('existingSubnetInYourVnet'))]",
     "scriptURL": "[uri(parameters('_artifactsLocation'), concat('gatewayInstall.ps1', parameters('_artifactsLocationSasToken')))]"
   },
@@ -202,6 +203,37 @@
           "authKey": {
             "value": "[parameters('authKey')]"
           },
+          "virtualMachineName": {
+            "value": "[take(parameters('VirtualMachineName'), 15)]"
+          },
+          "existingVnetLocation": {
+            "value": "[parameters('existingVnetLocation')]"
+          },
+          "scriptUrl": {
+            "value": "[variables('scriptURL')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2019-09-01",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat('JAVAInstalltemplate-', copyIndex())]",
+      "dependsOn": [
+        "vmcopy"
+      ],
+      "copy": {
+        "name": "javainstallcopy",
+        "count": "[parameters('NodeCount')]",
+        "mode": "serial"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('javaInstallTemplateLink')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
           "virtualMachineName": {
             "value": "[take(parameters('VirtualMachineName'), 15)]"
           },
