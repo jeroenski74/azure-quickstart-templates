@@ -95,7 +95,8 @@
     "irInstallTemplateLink": "[uri(parameters('_artifactsLocation'), concat('nested/IRInstall.json', parameters('_artifactsLocationSasToken')))]",
     "javaInstallTemplateLink": "[uri(parameters('_artifactsLocation'), concat('nested/JavaInstall.json'))]",
     "subnetId": "[resourceId(parameters('existingVnetResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('existingSubnetInYourVnet'))]",
-    "scriptURL": "[uri(parameters('_artifactsLocation'), concat('gatewayInstall.ps1', parameters('_artifactsLocationSasToken')))]"
+    "irScriptURL": "[uri(parameters('_artifactsLocation'), concat('gatewayInstall.ps1', parameters('_artifactsLocationSasToken')))]",
+    "javaScriptURL": "[uri(parameters('_artifactsLocation'), concat('javaInstall.ps1', parameters('_artifactsLocationSasToken')))]"
   },
   "resources": [
     {
@@ -210,7 +211,7 @@
             "value": "[parameters('existingVnetLocation')]"
           },
           "scriptUrl": {
-            "value": "[variables('scriptURL')]"
+            "value": "[variables('irScriptURL')]"
           }
         }
       }
@@ -241,7 +242,7 @@
             "value": "[parameters('existingVnetLocation')]"
           },
           "scriptUrl": {
-            "value": "[variables('scriptURL')]"
+            "value": "[variables('javaScriptURL')]"
           }
         }
       }
