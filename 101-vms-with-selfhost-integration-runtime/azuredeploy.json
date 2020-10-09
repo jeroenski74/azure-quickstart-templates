@@ -208,7 +208,7 @@
           "existingVnetLocation": {
             "value": "[parameters('existingVnetLocation')]"
           },
-          "irScriptUrl": {
+          "scriptUrl": {
             "value": "[variables('scriptURL')]"
           }
         }
